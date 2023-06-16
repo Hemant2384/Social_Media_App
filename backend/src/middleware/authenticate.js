@@ -1,0 +1,22 @@
+const jwt = require('jsonwebtoken')
+const User = require('../models/users')
+require('dotenv').config()
+
+//method for authentication of the user
+const auth = async (req, res, next)=> {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '') 
+        const decoded = jwt.verify(token, 'Secretforidentification')
+        const user = await User.findOne({_id: decoded._id, 'tokens.token': token})                                                                    
+        if(!user) {
+            throw new Error()
+        }
+        req.user = user
+        req.token = token
+        next()
+    } catch (e) {
+        res.status(401).send({error: "Please Login or Sign up"})
+    }
+}
+
+module.exports = auth
