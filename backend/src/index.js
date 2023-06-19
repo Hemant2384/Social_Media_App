@@ -5,6 +5,8 @@ const conDB = require('./db/mongoose')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const userRouter = require('./routers/user')
+const postRouter = require('./routers/post')
+const likeRouter = require('./routers/like')
 const port = 8000
 
 conDB()
@@ -14,6 +16,8 @@ app.use(express.json())
 app.use(cors())
 
 app.use(userRouter)
+app.use(postRouter)
+app.use(likeRouter)
 
 mongoose.connection.once('open', () => {
     console.log('Connected to DB');

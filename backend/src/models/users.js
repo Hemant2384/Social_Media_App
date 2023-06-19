@@ -3,12 +3,14 @@ require('dotenv').config()
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const Posts = require('./posts')
 
 const userSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     email: {
         type: String,
@@ -32,6 +34,9 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    profilePic: {
+        type: Buffer
+    },
     tokens: [{
         token: {
             type: String,
@@ -42,17 +47,25 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+userSchema.virtual('posts', {
+    ref: 'Posts',
+    localField: 'username',
+    foreignField: 'username'
+})
+
 // Remove cofidential data before sending back to client
 userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
     delete userObject.password
+    delete userObject.tokens
+    delete userObject.email
     return userObject
 }
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this
-    const token = jwt.sign({_id: user._id.toString()},'Secretforidentification')
+    const token = jwt.sign({_id: user._id.toString()}, process.env.SECRET_KEY, { expiresIn: '1h'})
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
@@ -82,6 +95,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
-const User = mongoose.model('User', userSchema)
+const Users = mongoose.model('Users', userSchema)
 
-module.exports = User
+module.exports = Users

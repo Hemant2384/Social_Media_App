@@ -2,8 +2,10 @@ const express = require('express')
 const router = new express.Router()
 const User = require('../models/users')
 const auth = require('../middleware/authenticate')
+const multer = require('multer')
+const sharp = require('sharp')
 
-router.post('/user/login', async (req,res) => {
+router.post('/login', async (req,res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
@@ -51,7 +53,7 @@ router.get('/user/me', auth, async (req, res) => {
 
 router.patch('/user/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'dob']
+    const allowedUpdates = ['username', 'email', 'password', 'dob']
     const isValidOperation = updates.every((update) => {
         return allowedUpdates.includes(update)
     })
@@ -78,6 +80,50 @@ router.delete('/user/me', auth, async (req, res) => {
     } catch (e) {
         res.status(500).send()
     }
+})
+
+const upload = multer({
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req, file, cb) {
+        if(!file.originalname.match(/\.(jpg|jpeg|png)$/)) {  //match takes regex .jpg || .jpeg//$-> means at end
+            return cb(new Error('Please povide image')) 
+        }
+        cb(undefined, true) 
+    }
+})
+
+router.post('/user/me/profilePic', auth, upload.single('profilePic'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({
+        width: 250,
+        height: 250
+    }).jpeg().toBuffer() 
+    req.user.profilePic = buffer
+    await req.user.save()
+    res.send('Image uploaded successfully')
+}, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
+})
+
+router.get('/user/:id/profilePic', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        if(!user || !user.avatar) {
+            throw new Error('Image not found!')
+        }
+
+        res.set('Content-Type', 'image/jpeg') 
+        res.send(user.avatar)
+    } catch(e) {
+        res.status(400).send(e)
+    }
+})
+
+router.delete('/user/me/profilePic', auth, async (req, res) => {
+    req.user.profilePic = undefined
+    await req.user.save()
+    res.send('Image deleted successfully')
 })
 
 module.exports = router
