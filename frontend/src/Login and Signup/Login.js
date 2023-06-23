@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/user/login", {
+      .post("http://localhost:8000/login", {
         email: username,
         password: password,
       })
@@ -42,7 +42,7 @@ const Login = () => {
         <>
           <form onSubmit={handleSubmit} className="login">
             <h3>Login</h3>
-            <label for="username">
+            <label htmlFor="username">
               Username:
               <input
                 type="email"
@@ -50,7 +50,7 @@ const Login = () => {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </label>
-            <label for="password">
+            <label htmlFor="password">
               Password:
               <input
                 type="password"
