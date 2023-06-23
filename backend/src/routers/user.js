@@ -4,6 +4,9 @@ const User = require('../models/users')
 const auth = require('../middleware/authenticate')
 const multer = require('multer')
 const sharp = require('sharp')
+const sendEmail = require('../utils/sendEmail')
+const Users = require('../models/users')
+const crypto = require('crypto')
 
 router.post('/login', async (req,res) => {
     try {
@@ -53,7 +56,7 @@ router.get('/user/me', auth, async (req, res) => {
 
 router.patch('/user/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['username', 'email', 'password', 'dob']
+    const allowedUpdates = ['username', 'dob']
     const isValidOperation = updates.every((update) => {
         return allowedUpdates.includes(update)
     })
@@ -124,6 +127,53 @@ router.delete('/user/me/profilePic', auth, async (req, res) => {
     req.user.profilePic = undefined
     await req.user.save()
     res.send('Image deleted successfully')
+})
+
+router.post('/resetPassword', async (req, res) => {
+    try {
+        const user = await Users.findOne({email: req.body.email})
+        if(!user) {
+            return res.status(400).send('User not found')
+        }
+        const subject = 'Password reset Link'
+        const token = user.getResetPasswordToken()  // Get new token for verification
+        const link = `${process.env.URL}/reset-password?token=${token}`  //Create link using token
+        const text = `This is your password reset link ${link}`
+        const sent = await sendEmail(user.email, subject, text)  // Send email, subject and password reset link to sendEmail()
+        if (!sent) {
+            throw new Error('Unable to send email')
+        }
+        res.send('Password reset link sent to your email')
+    } catch (e) {
+        res.status(500).send(e)
+    }   
+})
+
+router.post('/resetPassword/:token', async (req, res) => {
+    const resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex")
+    try {
+        const user = await Users.findOne({
+            resetPasswordToken,
+            resetPasswordExpire: { $gt: Date.now() }
+          });
+      
+          if (!user) {
+            return res.status(400).send('Invalid token or session timed out')
+          }
+      
+          user.password = req.body.password;
+          user.resetPasswordToken = undefined;
+          user.resetPasswordExpire = undefined;
+          user.tokens = []
+          await user.save()
+          const token = await user.generateAuthToken()
+          res.send({user,token})
+    } catch(e) {
+        res.status(400).send(e)
+    }
 })
 
 module.exports = router

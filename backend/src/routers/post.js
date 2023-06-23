@@ -22,7 +22,8 @@ router.post('/post', auth, upload.single('img'), async (req, res) => {
     const post = new Posts({
         username: req.user.username,
         img: buffer,
-        owner: req.user._id
+        owner: req.user._id,
+        caption: req.user.caption
     })
 
     try {

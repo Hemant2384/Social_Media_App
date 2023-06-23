@@ -17,21 +17,7 @@ const postSchema = new mongoose.Schema({
         type: Map,
         of: Boolean,
         default: new Map()
-    },
-    comments:[{
-        username:{
-            type: String,
-            required: true
-        },
-        createdAt:{
-            type:String,
-            required: true
-        },
-        comment: {
-            type: String,
-            required: true
-        }
-    }]
+    }
 }, {
     timestamps: true
 })

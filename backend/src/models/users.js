@@ -3,7 +3,7 @@ require('dotenv').config()
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const Posts = require('./posts')
+const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -42,7 +42,9 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
 }, {
     timestamps: true
 })
@@ -82,7 +84,7 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({email})
+    const user = await Users.findOne({email})
 
     if(!user) {
         throw new Error('Unable to login')
@@ -93,6 +95,21 @@ userSchema.statics.findByCredentials = async (email, password) => {
     }
 
     return user
+}
+
+userSchema.methods.getResetPasswordToken = function () {
+    
+    const resetToken = crypto.randomBytes(20).toString("hex")
+    // Hash token (private key) and save to database
+    this.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+  
+    // Set token expire date
+    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Ten Minutes
+  
+    return resetToken;
 }
 
 const Users = mongoose.model('Users', userSchema)

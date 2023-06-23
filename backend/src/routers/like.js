@@ -23,4 +23,16 @@ router.post('/like/:id', auth, async (req, res) => {
     }
 })
 
+router.get('/like/:id', async (req, res) => {
+    try {
+        const post = await Posts.findById(req.params.id)
+        if (!post) {
+            return res.send(404).send('Post not found')
+        }
+        res.send(post.likes)
+    } catch(e) {
+        res.status(400).send('Something went wrong')
+    }
+})
+
 module.exports = router
