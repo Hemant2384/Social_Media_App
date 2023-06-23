@@ -5,13 +5,15 @@ import Logout from "./Logout";
 import './Login.css'
 
 const Login = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const authenticated = localStorage.getItem('user-token' || "");
-
+  const authenticated = localStorage.getItem('user-token') || "";
+  
   const handleSubmit = (e) => {
+    console.log(username);
     e.preventDefault();
     axios
       .post("http://localhost:8000/login", {

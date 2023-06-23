@@ -1,4 +1,5 @@
-import {React, useNavigate} from 'react'
+import {React} from 'react'
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 
 const Logout = () => {

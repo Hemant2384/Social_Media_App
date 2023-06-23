@@ -13,7 +13,7 @@ const Signup = () => {
         e.preventDefault();
         axios.post('http://localhost:8000/register', 
         {
-            name: username,
+            username: username,
             email: email,
             password: password,
             dob: dob
