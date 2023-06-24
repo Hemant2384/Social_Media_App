@@ -22,6 +22,12 @@ const postSchema = new mongoose.Schema({
     timestamps: true
 })
 
+postSchema.virtual('comments', {
+    ref:'Comments',
+    localField:'_id',
+    foreignField:'post_id'
+})
+
 const Posts = mongoose.model('Posts', postSchema)
 
 module.exports = Posts

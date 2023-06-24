@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const userRouter = require('./routers/user')
 const postRouter = require('./routers/post')
 const likeRouter = require('./routers/like')
+const commentRouter = require('./routers/comment')
 const port = 8000
 
 conDB()
@@ -18,6 +19,7 @@ app.use(cors())
 app.use(userRouter)
 app.use(postRouter)
 app.use(likeRouter)
+app.use(commentRouter)
 
 mongoose.connection.once('open', () => {
     console.log('Connected to DB');
