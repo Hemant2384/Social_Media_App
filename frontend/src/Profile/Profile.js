@@ -1,5 +1,6 @@
 import React from 'react'
 import Post from './Post'
+import Navbar from '../Navbar/Navbar';
 
 const Profile = () => {
   
@@ -10,7 +11,7 @@ const Profile = () => {
       {
         authenticated ? 
         <>
-        Profile
+        <Navbar/>
         <Post/>
         </>
         :

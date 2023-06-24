@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import Logout from "./Logout";
-import './Login.css'
+import { useNavigate, Link, Navigate } from "react-router-dom";
+import "./Login.css";
+import {BarWave, Hypnosis, FillingBottle} from "react-cssfx-loading";
 
 const Login = () => {
-
   const navigate = useNavigate();
-  
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const authenticated = localStorage.getItem('user-token') || "";
-  
+  const authenticated = localStorage.getItem("user-token");
+
   const handleSubmit = (e) => {
-    console.log(username);
     e.preventDefault();
     axios
       .post("http://localhost:8000/login", {
@@ -21,11 +19,11 @@ const Login = () => {
         password: password,
       })
       .then((res) => {
-        alert("Logged in");
+        console.log("Logged in");
         const token = res.data.token;
         localStorage.clear();
         localStorage.setItem("user-token", token);
-        navigate("/");
+        navigate("/home");
       })
       .catch((err) => {
         alert(err);
@@ -38,12 +36,12 @@ const Login = () => {
     <>
       {authenticated ? (
         <>
-          <Logout />
+        <Navigate to='/home'/>
         </>
       ) : (
         <>
           <form onSubmit={handleSubmit} className="login">
-            <h3>Login</h3>
+            <h3 className="login-head">Login</h3>
             <label htmlFor="username">
               Username:
               <input
@@ -60,8 +58,14 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
-            <h4><Link to='/register'>Create a new Account ?</Link></h4>
-            <button type="submit">Login</button>
+            <h4>
+              <Link className="navigate" to="/register">
+                Create a new Account ?
+              </Link>
+            </h4>
+            <button className="login-button" type="submit">
+              Login
+            </button>
           </form>
         </>
       )}

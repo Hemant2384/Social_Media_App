@@ -1,6 +1,7 @@
 import {React} from 'react'
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
+import {RiLogoutCircleRLine} from 'react-icons/ri'
 
 const Logout = () => {
 
@@ -12,7 +13,7 @@ const Logout = () => {
         
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         axios.post('http://localhost:8000/user/logout').then(res => {
-            alert(res)
+            console.log(res)
             navigate('/')
         }).catch(err => {
             alert(err)
@@ -22,7 +23,8 @@ const Logout = () => {
 
   return (
     <div>
-        <button type='submit' onClick={handleSubmit}>Logout</button>
+        <RiLogoutCircleRLine className='logout-button' type='submit' onClick={handleSubmit}/>
+        {/* <button className='logout-button' type='submit' onClick={handleSubmit}>Logout</button> */}
     </div>
   )
 }

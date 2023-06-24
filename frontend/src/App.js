@@ -5,31 +5,32 @@ import Login from './Login and Signup/Login';
 import Signup from './Login and Signup/Signup';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
-import Navbar from './Navbar/Navbar';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home/>,
-  },
-  {
-    path: "/login",
-    element: <Login/>,
-  },
-  {
-    path: "/register",
-    element: <Signup/>
-  },
-  {
-    path: "/profile",
-    element: <Profile/>
-  }
-]);
 
 function App() {
+  
+  // const loggedin = localStorage.getItem('user-token');
+  
+  const router = createBrowserRouter([
+    {
+      path: "/home",
+      element: <Home/>,
+    },
+    {
+      path: "/",
+      element: <Login/>,
+    },
+    {
+      path: "/register",
+      element: <Signup/>
+    },
+    {
+      path: "/profile",
+      element: <Profile/>
+    }
+  ]);
+  
   return (
     <>
-    <Navbar/>
     <RouterProvider router = {router}/>
     </>
   );
