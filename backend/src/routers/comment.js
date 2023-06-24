@@ -6,15 +6,15 @@ const auth = require('../middleware/authenticate')
 
 router.post('/:id/comment', auth, async (req, res) => {  //id is post id
     const comment = new Comments({
-        body: req.body.text,
+        text: req.body.text,
         username: req.user.username,
-        post_id: req.params._id
+        post_id: req.params.id
     })
     try {
         await comment.save()
         res.status(201).send(comment)
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send(e)
     }
 })
 

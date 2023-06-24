@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Comments = require('./comments')
 
 const postSchema = new mongoose.Schema({
     username: {
@@ -28,6 +29,16 @@ postSchema.virtual('comments', {
     foreignField:'post_id'
 })
 
+postSchema.pre('deleteOne', {document: true}, async function(next) {
+    const post = this
+    try {
+        console.log(post)
+        await Comments.deleteMany({post_id:post._id})
+        next()
+    } catch (e) {
+        res.status(500).send(e);
+    }
+})
 const Posts = mongoose.model('Posts', postSchema)
 
 module.exports = Posts

@@ -15,7 +15,7 @@ router.post('/login', async (req,res) => {
         console.log(token);
         res.send({user,token})
     } catch (e) {
-        res.status(401).send(e)
+        res.status(400).send(e)
     } 
 })
 
