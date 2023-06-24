@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const userRouter = require('./routers/user')
 const postRouter = require('./routers/post')
 const likeRouter = require('./routers/like')
-const port = 8000
+const port = 8000 || process.env.PORT
 
 conDB()
 

@@ -4,9 +4,12 @@
     margin: 0;
     box-sizing: border-box;
 }
-.login{
-    height: 520px;
-    width: 400px;
+body {    
+    background-color: #e2e8f0;
+  }
+.signup{
+    height: 700px;
+    width: 470px;
     background-color: black;
     position: absolute;
     transform: translate(-50%,-50%);
@@ -14,7 +17,6 @@
     left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
     background-color: #ffffff;
     box-shadow: 2px 4px 8px #6b728040;
     padding: 50px 35px;
@@ -26,45 +28,37 @@ form *{
     outline: none;
     border: none;
 }
-.login-head{
+.signup-head{
     font-size: 42px;
     font-weight: 550;
     line-height: 42px;
     text-align: center;
     color: #6366f1;
 }
-.loader{
-    position: fixed !important;
-    top: 40%;
-    left: 50%;
-    height: 4em !important;
-    width: 4em !important;
-    border: 3px solid #6366f1 !important;
-}
-.loader::before{
-    background-color: #6366f1 !important;
-}
+
 label{
     display: block;
     margin-top: 30px;
     font-size: 16px;
-    font-weight: 500;
+    color: black;
+    font-weight: 570;
 }
 input{
     display: block;
     height: 50px;
     width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    border-radius: 5em;
     padding: 0 10px;
     margin-top: 8px;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 500;
 }
 ::placeholder{
     color: #e5e5e5;
 }
-.login-button{
+.signin-button{
     margin-top: 30px;
     width: 100%;
     background-color: #6366f1;
@@ -75,18 +69,14 @@ input{
     border-radius: 5px;
     cursor: pointer;
 }
-.logout-button{
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
 form h4{
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     text-align: center;
     margin-top: 2em;
 }
 
 .navigate{
+    color: black;
     text-decoration: none;
 }
