@@ -17,20 +17,38 @@ const upload = multer({
     }
 })
 
-router.post('/post', auth, upload.single('img'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).jpeg().toBuffer() 
-    const post = new Posts({
-        username: req.user.username,
-        img: buffer,
-        owner: req.user._id,
-        caption: req.user.caption
-    })
-
+router.post('/post', auth, upload.single('img'), async (req, res) => { 
+    if(!req.body.caption && !req.file) {
+        return res.status(400).send('Please provide some content')
+    }
+    var post = undefined
+    if(req.body.caption && req.file) {
+        const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
+            post = new Posts({
+            username: req.user.username,
+            img: buffer,
+            owner: req.user._id,
+            caption: req.body.caption
+        })
+    } else if(req.body.caption) {
+            post = new Posts({
+            username: req.user.username,
+            owner: req.user._id,
+            caption: req.body.caption
+        })
+    } else {
+        const buffer = await sharp(req.file.buffer).jpeg().toBuffer()
+            post = new Posts({
+            username: req.user.username,
+            img: buffer,
+            owner: req.user._id
+        })
+    }
     try {
         await post.save()
-        res.status(201).send('Uploaded Successfully')
+        res.status(201).send(post)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 }, (error, req, res, next) => {
     res.status(400).send({error: error.message})

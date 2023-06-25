@@ -4,15 +4,13 @@ const Comments = require('./comments')
 const postSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     caption: {
         type: String
     },
     img: {
-        type:Buffer,
-        required:true
+        type:Buffer
     },
     likes:{
         type: Map,
