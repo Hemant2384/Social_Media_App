@@ -46,17 +46,16 @@ const Post = () => {
     setImage("");
   };
   return (
-    <div className="main">
+    <>
       <form onSubmit={handleSubmit} className="post">
-        <h3>Create Post</h3>
-        <label htmlFor="image">
-          <input
+        <h3 className="post-head">Create Post</h3>
+        <input
+          className="image-input"
             type="file"
             // value={Image}
             name="Add Image"
             onChange={(e) => setImage(e.target.files[0])}
           />
-        </label>
         <button type="submit">Post</button>
       </form>
       <div className="card-container">
@@ -88,7 +87,7 @@ const Post = () => {
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
 

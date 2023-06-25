@@ -20,13 +20,7 @@ body {
     background-color: #ffffff;
     box-shadow: 2px 4px 8px #6b728040;
     padding: 50px 35px;
-}
-form *{
     font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
 }
 .signup-head{
     font-size: 42px;
@@ -43,7 +37,7 @@ label{
     color: black;
     font-weight: 570;
 }
-input{
+.input-form{
     display: block;
     height: 50px;
     width: 100%;
@@ -54,8 +48,11 @@ input{
     margin-top: 8px;
     font-size: 14px;
     font-weight: 500;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
 }
-::placeholder{
+.input-form::placeholder{
     color: #e5e5e5;
 }
 .signin-button{

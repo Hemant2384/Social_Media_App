@@ -37,19 +37,19 @@ const Signup = () => {
         <h3 className='signup-head'>Signup</h3>
     <label htmlFor='username'>
         Username: 
-        <input type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
+        <input className="input-form" type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
     </label>
     <label htmlFor='password'>
         Password: 
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <input className="input-form" type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
     </label>
     <label htmlFor='email'>
         Email: 
-        <input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <input className="input-form" type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
     </label>
     <label htmlFor='date'>
         Date of Birth: 
-        <input type='date' value={dob} onChange={(e) => setDob(e.target.value)}/>
+        <input className="input-form" type='date' value={dob} onChange={(e) => setDob(e.target.value)}/>
     </label>
     <h4><Link className="navigate" to='/'>Already Have an Account ?</Link></h4>
     <button className='signin-button' type='submit'>Sign Up</button>
