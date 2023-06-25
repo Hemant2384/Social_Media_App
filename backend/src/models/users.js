@@ -4,6 +4,8 @@ const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
+const Posts = require('./posts')
+const Comments = require('./comments')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -81,6 +83,17 @@ userSchema.pre('save', async function (next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
     next() 
+})
+
+userSchema.pre('deleteOne', {document: true}, async function(next) {
+    const user = this
+    try {
+        await Posts.deleteMany({username: user.username})
+        await Comments.deleteMany({username: user.username})
+        next()
+    } catch(e) {
+        res.status(500).send()
+    }
 })
 
 userSchema.statics.findByCredentials = async (email, password) => {

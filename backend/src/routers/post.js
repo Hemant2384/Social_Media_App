@@ -70,10 +70,11 @@ router.get('/post/:id', async (req, res) => {
 
 router.delete('/post/:id', auth, async(req, res) => {
     try {
-        const post = await Posts.findOneAndDelete({_id:req.params.id, owner: req.user._id})
+        const post = await Posts.findById(req.params.id)
         if(!post) {
             res.status(404).send()
         }
+        await post.deleteOne()
         res.send(post)
     } catch(e) {
         res.status(500).send(e)
