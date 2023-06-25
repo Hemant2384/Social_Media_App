@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Post.css";
+import {BsCardImage} from 'react-icons/bs'
 
 const Post = () => {
   const [Image, setImage] = useState(null);
+  const [caption, SetCaption] = useState("");
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -47,17 +49,52 @@ const Post = () => {
   };
   return (
     <>
-      <form onSubmit={handleSubmit} className="post">
-        <h3 className="post-head">Create Post</h3>
-        <input
-          className="image-input"
-            type="file"
-            // value={Image}
-            name="Add Image"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        <button type="submit">Post</button>
-      </form>
+    <div className="post">
+      <div className="widget-post" aria-labelledby="post-header-title">
+        <div className="widget-post__header">
+          <h2 className="widget-post__title" id="post-header-title">
+            <i className="fa fa-pencil" aria-hidden="true"></i>
+            Write post
+          </h2>
+        </div>
+        <form
+          id="widget-form"
+          className="widget-post__form"
+          name="form"
+          aria-label="post widget"
+          onSubmit={handleSubmit}
+        >
+          <div className="widget-post__content">
+            <label for="post-content" className="sr-only">
+              Share Your Moments!
+            </label>
+            <textarea
+              name="post"
+              id="post-content"
+              className="widget-post__textarea scroller"
+              placeholder="share your moments"
+              onChange={(e) => SetCaption(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="widget-post__actions post--actions">
+            <div className="post-actions__attachments">
+              <button
+                type="button"
+                className="btn post-actions__upload attachments--btn"
+              >
+                <label for="upload-image" className="post-actions__label">
+                  <BsCardImage className="upload-icon"/>
+                  {/* <i className="fa fa-upload" aria-hidden="true"></i> */}
+                  Upload image
+                </label>
+              </button>
+              <input type="file" id="upload-image" accept="image/*" multiple onChange={(e) => setImage(e.target.files[0])} />
+            </div>
+            <div className="post-actions__widget">
+              <button className="btn post-actions__publish">Post</button>
+            </div>
+          </div>
+        </form>
       <div className="card-container">
         {posts.map((user) => {
           return (
@@ -71,14 +108,14 @@ const Post = () => {
                   alt=""
                   className="mask"
                 />
-                <div class="h1">{user.username}</div>
+                <div className="h1">{user.username}</div>
                 <p>
                   Apple is more than a tech company; it became a culture unto
                   itself, a passion of most of people and the birthplace of the
                   world’s most revolutionized products.
                 </p>
                 <div>
-                  <a href="/" target="_" class="button">
+                  <a href="/" target="_" className="button">
                     Read More
                   </a>
                 </div>
@@ -86,6 +123,8 @@ const Post = () => {
             </div>
           );
         })}
+      </div>
+      </div>
       </div>
     </>
   );
