@@ -74,6 +74,21 @@ router.get('/posts', auth, async (req, res) => {
     }
 })
 
+router.get('/feed', auth, async (req, res) => {
+    let skip = 0
+    if(req.query.skip) {
+        skip = req.query.skip
+    }
+    try {
+        const allPosts = await Posts.find().sort({
+            createdAt: -1
+        }).skip(skip).limit(10)
+        res.send(allPosts)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
 router.get('/post/:id', async (req, res) => {
     try {
         const post = await Posts.findById(req.params.id)
