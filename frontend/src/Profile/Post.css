@@ -160,7 +160,139 @@ ul {
 :-moz-placeholder {
   color: #666;
 }
+
 .card-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
+
+.containerr {
+  height: 400px;
+  width: 600px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-header h3 {
+  margin: 0;
+}
+
+.post-header h4 {
+  margin: 0;
+}
+
+.likes-comments {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  position: relative;
+}
+
+.likes-comments:before,
+.likes-comments:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.likes-comments:before {
+  top: -5px;
+}
+
+.likes-comments:after {
+  bottom: -5px;
+}
+
+.likes,
+.comments {
+  width: 50%;
+  padding: 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.likes:hover {
+  background-color: #f2f2f2;
+}
+
+.comments:hover {
+  background-color: #eaeaea;
+}
+
+
+/* /* .containerr h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.post-date {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+  margin-bottom: 10px;
+} 
+
+.containerr .mask {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.containerr p {
+  margin-bottom: 10px;
+}
+
+.containerr .button {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.containerr .button:hover {
+  background-color: #0056b3;
+}
+
+.containerr .likes-comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.containerr .likes-comments .likes {
+  display: flex;
+  align-items: center;
+}
+
+.containerr .likes-comments .likes .like-icon {
+  margin-right: 5px;
+}
+
+.containerr .likes-comments .comments {
+  display: flex;
+  align-items: center;
+}
+
+.containerr .likes-comments .comments .comment-icon {
+  margin-right: 5px;
+} */
