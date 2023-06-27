@@ -3,9 +3,10 @@ import axios from "axios";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 
 const ResetPassword = () => {
+ 
+    const authenticated = localStorage.getItem("user-token");
 
     const navigate = useNavigate();
-    const authenticated = localStorage.getItem("user-token");
     const [email, setEmail] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,7 +15,9 @@ const ResetPassword = () => {
             email: email,
           })
           .then((res) => {
-            alert(res)
+            console.log(res.data);
+            localStorage.setItem("reset-token", res.data)
+            alert('Reset Link send successfully')
             navigate("/");
           })
           .catch((err) => {
