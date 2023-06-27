@@ -45,8 +45,12 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }],
-    resetPasswordToken: String,
-    resetPasswordExpire: Date
+    resetPasswordToken: {
+        type:String
+    },
+    resetPasswordExpire: {
+        type:Date
+    }
 }, {
     timestamps: true
 })
@@ -110,18 +114,17 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
-userSchema.methods.getResetPasswordToken = function () {
-    
+userSchema.methods.getResetPasswordToken = async function () {
+    const user = this
     const resetToken = crypto.randomBytes(20).toString("hex")
     // Hash token (private key) and save to database
-    this.resetPasswordToken = crypto
+    user.resetPasswordToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
-  
     // Set token expire date
-    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Ten Minutes
-  
+    user.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Ten Minutes
+    await user.save()
     return resetToken;
 }
 

@@ -136,8 +136,8 @@ router.post('/resetPassword', async (req, res) => {
             return res.status(400).send('User not found')
         }
         const subject = 'Password reset Link'
-        const token = user.getResetPasswordToken()  // Get new token for verification
-        const link = `${process.env.URL}/reset-password?token=${token}`  //Create link using token
+        const token = await user.getResetPasswordToken()  // Get new token for verification
+        const link = `${process.env.URL}/resetPassword/${token}`  //Create link using token
         const text = `This is your password reset link ${link}`
         const sent = await sendEmail(user.email, subject, text)  // Send email, subject and password reset link to sendEmail()
         if (!sent) {
@@ -155,10 +155,12 @@ router.post('/resetPassword/:token', async (req, res) => {
         .update(req.params.token)
         .digest("hex")
     try {
-        const user = await Users.findOne({
+        console.log(resetPasswordToken)
+          const user = await Users.findOne({
             resetPasswordToken,
-            resetPasswordExpire: { $gt: Date.now() }
-          });
+            resetPasswordExpire: { $gt: Date.now()}
+          })
+          console.log(user)
       
           if (!user) {
             return res.status(400).send('Invalid token or session timed out')
