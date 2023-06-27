@@ -65,6 +65,11 @@ const Login = () => {
                 Create a new Account ?
               </Link>
             </h4>
+            <h4>
+              <Link className="navigate" to="/forgot">
+                Forgot Password ?
+              </Link>
+            </h4>
             <button className="login-button" type="submit">
               Login
             </button>

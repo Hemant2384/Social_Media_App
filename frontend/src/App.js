@@ -5,6 +5,7 @@ import Login from './Login and Signup/Login';
 import Signup from './Login and Signup/Signup';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
+import ResetPassword from './Login and Signup/ResetPassword';
 
 function App() {
   
@@ -26,6 +27,10 @@ function App() {
     {
       path: "/profile",
       element: <Profile/>
+    },
+    {
+      path: "/forgot",
+      element: <ResetPassword/>
     }
   ]);
   
