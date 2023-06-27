@@ -143,7 +143,7 @@ router.post('/resetPassword', async (req, res) => {
         if (!sent) {
             throw new Error('Unable to send email')
         }
-        res.send('Password reset link sent to your email')
+        res.send(token)
     } catch (e) {
         res.status(500).send(e)
     }   
