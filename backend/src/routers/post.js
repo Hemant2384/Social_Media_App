@@ -85,7 +85,7 @@ router.get('/feed', auth, async (req, res) => {
         const allPosts = await Posts.find().sort({
             createdAt: -1
         }).skip(skip).limit(10)
-        allPosts.every(toBase64)
+        // allPosts.every(toBase64)
         res.send(allPosts)
     } catch (e) {
         res.status(500).send(e)
@@ -98,7 +98,7 @@ router.get('/post/:id', async (req, res) => {
         if(!post) {
             throw new Error('Post not found!')
         }
-        toBase64(post) 
+        // toBase64(post) 
         res.send(post)
     } catch(e) {
         res.status(400).send(e)
