@@ -155,12 +155,10 @@ router.post('/resetPassword/:token', async (req, res) => {
         .update(req.params.token)
         .digest("hex")
     try {
-        console.log(resetPasswordToken)
           const user = await Users.findOne({
             resetPasswordToken,
             resetPasswordExpire: { $gt: Date.now()}
           })
-          console.log(user)
       
           if (!user) {
             return res.status(400).send('Invalid token or session timed out')
@@ -171,8 +169,7 @@ router.post('/resetPassword/:token', async (req, res) => {
           user.resetPasswordExpire = undefined;
           user.tokens = []
           await user.save()
-          const token = await user.generateAuthToken()
-          res.send({user,token})
+          res.send('Password Reset Successfully')
     } catch(e) {
         res.status(400).send(e)
     }
