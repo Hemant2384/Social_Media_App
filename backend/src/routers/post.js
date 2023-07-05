@@ -4,6 +4,7 @@ const Posts = require('../models/posts')
 const auth = require('../middleware/authenticate')
 const multer = require('multer')
 const sharp = require('sharp')
+const toBase64 = require('../utils/toBase64')
 
 const upload = multer({
     limits:{
@@ -68,6 +69,7 @@ router.get('/posts', auth, async (req, res) => {
                 }
             }
         }) 
+        // req.user.posts.every(toBase64)
         res.status(200).send(req.user.posts)
     } catch (e) {
         res.status(500).send(e)
@@ -83,6 +85,7 @@ router.get('/feed', auth, async (req, res) => {
         const allPosts = await Posts.find().sort({
             createdAt: -1
         }).skip(skip).limit(10)
+        allPosts.every(toBase64)
         res.send(allPosts)
     } catch (e) {
         res.status(500).send(e)
@@ -95,6 +98,7 @@ router.get('/post/:id', async (req, res) => {
         if(!post) {
             throw new Error('Post not found!')
         }
+        toBase64(post) 
         res.send(post)
     } catch(e) {
         res.status(400).send(e)
