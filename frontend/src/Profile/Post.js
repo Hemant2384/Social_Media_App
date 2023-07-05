@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Post.css";
 import { BsCardImage } from "react-icons/bs";
 import moment from "moment";
+import Likes from "./Likes/Likes";
 
 const Post = () => {
   const [Image, setImage] = useState(null);
@@ -136,7 +137,7 @@ const Post = () => {
                   <p>{user.caption}</p>
                   <div class="likes-comments">
                     <div class="likes">
-                      <h3>Likes</h3>
+                      <Likes postid = {user.__id}/>
                     </div>
                     <div class="comments">
                       <h3>Comments</h3>

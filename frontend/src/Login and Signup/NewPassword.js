@@ -28,7 +28,7 @@ const NewPassword = () => {
 
   return (
     <>
-      {authenticated ? (
+      {!authenticated ? (
         <>
           <Navigate to="/login" />
         </>

@@ -3,8 +3,8 @@ import './Navbar.css'
 import {Link} from 'react-router-dom'
 import Logout from '../Login and Signup/Logout'
 import {BsMessenger} from 'react-icons/bs'
-import {RiNotification2Fill} from 'react-icons/ri'
 import {CgProfile} from 'react-icons/cg'
+import Notification from '../Notification/Notification'
 
 const Navbar = () => {
   return (
@@ -19,7 +19,7 @@ const Navbar = () => {
             <ul className="menu-items">
                 <li><a href="/profile"><CgProfile/></a></li>
                 <li><a href="/"><BsMessenger/></a></li>
-                <li><a href="/"><RiNotification2Fill/></a></li>
+                <li><a href="/"><Notification/></a></li>
                 <li><Logout/></li>
             </ul>
             <Link to='/'><h1 className="logo">Muse</h1></Link>
