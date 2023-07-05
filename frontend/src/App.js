@@ -6,10 +6,13 @@ import Signup from './Login and Signup/Signup';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import ResetPassword from './Login and Signup/ResetPassword';
+import NewPassword from './Login and Signup/NewPassword';
 
 function App() {
   
   // const loggedin = localStorage.getItem('user-token');
+
+  const resetToken = localStorage.getItem('reset-token')
   
   const router = createBrowserRouter([
     {
@@ -31,6 +34,10 @@ function App() {
     {
       path: "/forgot",
       element: <ResetPassword/>
+    },
+    {
+      path: `/resetPassword/${resetToken}`,
+      element: <NewPassword/>
     }
   ]);
   
