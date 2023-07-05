@@ -1,6 +1,7 @@
 import {React, useState} from 'react'
 import axios from "axios";
 import { useNavigate, Link, Navigate } from "react-router-dom";
+import './ResetPassword.css'
 
 const ResetPassword = () => {
  
@@ -33,8 +34,8 @@ const ResetPassword = () => {
             </>
           ) : (
             <>
-              <form onSubmit={handleSubmit} className="login">
-                <h3 className="login-head">Login</h3>
+              <form onSubmit={handleSubmit} className="reset">
+                <h3 className="reset-head">Reset your Password</h3>
                 <label htmlFor="email">
                   Email:
                   <input
@@ -44,7 +45,7 @@ const ResetPassword = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </label>
-                <button className="login-button" type="submit">
+                <button className="reset-button" type="submit">
                   Reset
                 </button>
               </form>

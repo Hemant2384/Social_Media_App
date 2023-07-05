@@ -120,7 +120,7 @@ const Post = () => {
                       {moment(user.createdAt).fromNow()}
                     </h4>
                   </div>
-                  {user.img.length && (
+                  {user.img && user.img.length && (
                     <>
                       <img
                         src={`data:image/jpeg;base64,${btoa(

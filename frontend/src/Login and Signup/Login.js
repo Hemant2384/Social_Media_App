@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import "./Login.css";
+// import Cookies from 'js-cookie'
+import jwt from 'jwt-decode'
 import {BarWave, Hypnosis, FillingBottle} from "react-cssfx-loading";
 
 const Login = () => {
@@ -10,6 +12,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const authenticated = localStorage.getItem("user-token");
+  // const jwt_token = Cookies.get('jwt-token')
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,8 +24,15 @@ const Login = () => {
       .then((res) => {
         console.log("Logged in");
         const token = res.data.token;
+        // const decoded = jwt(token)
         localStorage.clear();
         localStorage.setItem("user-token", token);
+        // Cookies.set('jwt-token', token, {
+        //   path: '/',
+        //   expires: new Date(decoded.exp * 1000),
+        //   httpOnly: true,
+        //   secure: true,
+        // });
         navigate("/home");
       })
       .catch((err) => {
