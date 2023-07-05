@@ -3,9 +3,11 @@ import axios from "axios";
 import "./Post.css";
 import { BsCardImage } from "react-icons/bs";
 import moment from "moment";
-import Likes from "./Likes/Likes";
 
 const Post = () => {
+
+  const mapping = {}
+  const [likes, setLikes] = useState([])
   const [Image, setImage] = useState(null);
   const [caption, SetCaption] = useState("");
   const [posts, setPosts] = useState([]);
@@ -13,14 +15,15 @@ const Post = () => {
   useEffect(() => {
     const token = localStorage.getItem("user-token");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    console.log(token);
     if (token) {
-      console.log("token");
       axios
         .get("http://localhost:8000/posts")
         .then((res) => {
-          console.log(res.data);
           setPosts(res.data);
+          res.data.map(index => {
+            mapping[index._id] = index.likes
+          })
+          console.log(mapping);
         })
         .catch((err) => {
           console.log(err);
@@ -31,7 +34,6 @@ const Post = () => {
     // }, 1500);
     // return () => clearInterval(interval);
   }, []);
-
   // console.log(posts);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,6 +57,21 @@ const Post = () => {
     setImage("");
     SetCaption("");
   };
+
+
+  const handleLikes = (id) => {
+    console.log(id);
+    console.log("mapping", mapping);
+      axios
+        .post(`http://localhost:8000/like/${id}`)
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    };
+
   return (
     <>
       <div className="post">
@@ -81,6 +98,7 @@ const Post = () => {
                 id="post-content"
                 className="widget-post__textarea scroller"
                 placeholder="share your moments"
+                value={caption}
                 onChange={(e) => SetCaption(e.target.value)}
               ></textarea>
             </div>
@@ -137,7 +155,7 @@ const Post = () => {
                   <p>{user.caption}</p>
                   <div class="likes-comments">
                     <div class="likes">
-                      <Likes postid = {user.__id}/>
+                    <h3 onClick={() => handleLikes(user._id)}>{mapping[user._id] > 0 && mapping[user._id].length}  Likes</h3>
                     </div>
                     <div class="comments">
                       <h3>Comments</h3>

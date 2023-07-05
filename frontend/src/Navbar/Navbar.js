@@ -22,7 +22,7 @@ const Navbar = () => {
                 <li><a href="/"><Notification/></a></li>
                 <li><Logout/></li>
             </ul>
-            <Link to='/'><h1 className="logo">Muse</h1></Link>
+            <Link to='/feed'><h1 className="logo">Muse</h1></Link>
         </div>
     </nav>
   )

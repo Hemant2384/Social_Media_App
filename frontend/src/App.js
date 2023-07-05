@@ -7,6 +7,7 @@ import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import ResetPassword from './Login and Signup/ResetPassword';
 import NewPassword from './Login and Signup/NewPassword';
+import Feed from './Feed/Feed';
 
 function App() {
   
@@ -18,6 +19,10 @@ function App() {
     {
       path: "/home",
       element: <Home/>,
+    },
+    {
+      path: "/feed",
+      element: <Feed/>
     },
     {
       path: "/",
