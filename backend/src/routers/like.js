@@ -11,13 +11,15 @@ router.post('/like/:id', auth, async (req, res) => {
         }
         const isLiked = post.likes.get(req.user.username)
         console.log(isLiked)
+        var liked = false
         if(isLiked) {
             post.likes.delete(req.user.username)
         } else {
             post.likes.set(req.user.username, true)
+            liked = true
         }
         await post.save()
-        res.send(post)
+        res.send({username: req.user.username, liked})
     } catch (e) {
         res.status(400).send('Something went wrong')
     }
