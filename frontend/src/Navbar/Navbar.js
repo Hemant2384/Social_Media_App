@@ -19,7 +19,7 @@ const Navbar = () => {
             <ul className="menu-items">
                 <li><a href="/profile"><CgProfile/></a></li>
                 <li><a href="/"><BsMessenger/></a></li>
-                <li><a href="/"><Notification/></a></li>
+                <li><Notification/></li>
                 <li><Logout/></li>
             </ul>
             <Link to='/feed'><h1 className="logo">Muse</h1></Link>

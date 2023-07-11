@@ -5,9 +5,8 @@ import { BsCardImage } from "react-icons/bs";
 import moment from "moment";
 
 const Post = () => {
-
-  const mapping = {}
-  const [likes, setLikes] = useState([])
+  const [hoveredPost, setHoveredPost] = useState(null);
+  const [mapping, setMapping] = useState([]);
   const [Image, setImage] = useState(null);
   const [caption, SetCaption] = useState("");
   const [posts, setPosts] = useState([]);
@@ -20,10 +19,16 @@ const Post = () => {
         .get("http://localhost:8000/posts")
         .then((res) => {
           setPosts(res.data);
-          res.data.map(index => {
-            mapping[index._id] = index.likes
-          })
-          console.log(mapping);
+          const newMapping = res.data.reduce((acc, index) => {
+            const keys = Object.keys(index.likes);
+            const size = keys.length;
+            acc[index._id] = {
+              likes: index.likes,
+              len: size,
+            };
+            return acc;
+          }, {});
+          setMapping(newMapping);
         })
         .catch((err) => {
           console.log(err);
@@ -58,19 +63,37 @@ const Post = () => {
     SetCaption("");
   };
 
-
-  const handleLikes = (id) => {
+  const handleLikes = (id, username) => {
     console.log(id);
-    console.log("mapping", mapping);
-      axios
-        .post(`http://localhost:8000/like/${id}`)
-        .then((res) => {
-          console.log(res.data)
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    };
+    console.log("mapping", mapping[id]);
+    axios
+      .post(`http://localhost:8000/like/${id}`)
+      .then((res) => {
+        const updatedMapping = { ...mapping };
+        const currentLikes = updatedMapping[id].likes;
+        const currentLen = updatedMapping[id].len;
+        const userliked = res.data.username
+        const likedornot = res.data.liked
+        if (likedornot) {
+          updatedMapping[id].len = currentLen + 1;
+          updatedMapping[id].likes = {
+            ...currentLikes,
+            [userliked]: likedornot,
+          };
+        } else {
+          updatedMapping[id].len = currentLen - 1;
+          updatedMapping[id].likes = {
+            ...currentLikes,
+            [userliked]: likedornot,
+          };
+        }
+        setMapping(updatedMapping);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+    setHoveredPost(null);
+  };
 
   return (
     <>
@@ -131,6 +154,11 @@ const Post = () => {
         <div className="card-container">
           {posts.length > 0 &&
             posts.map((user, id) => {
+              const postLikes = mapping[user._id] && mapping[user._id].likes;
+              const isLiked = user._id in mapping && mapping[user._id].len > 0;
+              const likesList = Object.keys(postLikes || {}).filter(
+                (key) => postLikes[key]
+              );
               return (
                 <div className="containerr" key={id}>
                   <div className="post-header">
@@ -154,8 +182,27 @@ const Post = () => {
                   )}
                   <p>{user.caption}</p>
                   <div class="likes-comments">
-                    <div class="likes">
-                    <h3 onClick={() => handleLikes(user._id)}>{mapping[user._id] > 0 && mapping[user._id].length}  Likes</h3>
+                  <div class="likes">
+                      <div
+                        onMouseEnter={() => setHoveredPost(user._id)}
+                        onMouseLeave={() => setHoveredPost(null)}
+                      >
+                        <h3
+                          onClick={() => handleLikes(user._id)}
+                          style={{
+                            backgroundColor: isLiked ? "f2f2f2" : "",
+                          }}
+                        >
+                          {mapping[user._id].len} Likes
+                        </h3>
+                        {hoveredPost === user._id && (
+                          <div className="likes-dropdown">
+                            {likesList.map((likedUser, index) => (
+                              <p key={index}>{likedUser}</p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div class="comments">
                       <h3>Comments</h3>
