@@ -193,7 +193,7 @@ const Post = () => {
                             backgroundColor: isLiked ? "f2f2f2" : "",
                           }}
                         >
-                          {mapping[user._id].len} Likes
+                          {mapping[user._id]?.len} Likes
                         </h3>
                         {hoveredPost === user._id && (
                           <div className="likes-dropdown">
