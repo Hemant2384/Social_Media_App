@@ -1,0 +1,95 @@
+.feed {
+    padding-top: 60px;
+}
+.likes-dropdown {
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; 
+  }
+  
+  .likes-dropdown.active {
+    display: block; 
+    opacity: 1; 
+  }
+  
+  .likes-dropdown p {
+    margin: 5px 0;
+  }
+  
+  .likes_feed:hover .likes-dropdown {
+    display: block;
+    opacity: 1;
+  }
+  .comments-section {
+    margin-top: 10px;
+  }
+  
+  .comments-section input[type="text"] {
+    width: 36em;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .comments-section button[type="submit"] {
+    margin-left: 12px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #6366f1;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .comments_feed {
+    margin-top: 10px;
+  }
+  
+  
+  .comments_feed p {
+    font-size: 12px;
+  }
+  
+  .comments_feed::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  .comment_username {
+    float: left;
+    margin-right: 10px;
+  }
+  
+  .comment_text {
+    width: calc(100% - 80px); /* Adjust the width based on your requirements */
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .comment_date {
+    float: right;
+  }
+.likes_feed {
+  width: 50%;
+  padding: 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* .likes_feed:hover {
+  background-color: #f2f2f2;
+} */
+
+.comments_feed:hover {
+  background-color: #eaeaea;
+}
+

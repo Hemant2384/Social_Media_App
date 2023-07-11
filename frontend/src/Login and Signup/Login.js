@@ -5,8 +5,10 @@ import "./Login.css";
 // import Cookies from 'js-cookie'
 import jwt from 'jwt-decode'
 import {BarWave, Hypnosis, FillingBottle} from "react-cssfx-loading";
+import UserContext from "../ContextAPI/UserContext";
 
 const Login = () => {
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -33,7 +35,7 @@ const Login = () => {
         //   httpOnly: true,
         //   secure: true,
         // });
-        navigate("/home");
+        navigate("/feed?userloggedin=" + res.data.user.username);
       })
       .catch((err) => {
         alert(err);
@@ -46,7 +48,7 @@ const Login = () => {
     <>
       {authenticated ? (
         <>
-        <Navigate to='/home'/>
+        <Navigate to='/feed'/>
         </>
       ) : (
         <>
