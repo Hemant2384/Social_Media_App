@@ -39,6 +39,27 @@ const userSchema = new mongoose.Schema({
     profilePic: {
         type: Buffer
     },
+    sentRequests: [{   // request sent to  following username
+        username: {
+            type: String,
+            required: true,
+            unique:true
+        }
+    }],
+    recievedRequests: [{  //request recieved from following username
+        username: {
+            type: String,
+            required: true,
+            unique:true
+        }
+    }],
+    friends: [{   
+        username: {
+            type: String,
+            required: true,
+            unique:true
+        }
+    }],
     tokens: [{
         token: {
             type: String,
