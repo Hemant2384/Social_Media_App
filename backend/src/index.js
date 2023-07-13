@@ -9,6 +9,7 @@ const postRouter = require('./routers/post')
 const likeRouter = require('./routers/like')
 const commentRouter = require('./routers/comment')
 const resetPasswordRoute = require('./routers/password')
+const friendRoute = require('./routers/friend')
 const port = 8000
 
 conDB()
@@ -22,6 +23,7 @@ app.use(postRouter)
 app.use(likeRouter)
 app.use(commentRouter)
 app.use(resetPasswordRoute)
+app.use(friendRoute)
 
 mongoose.connection.once('open', () => {
     console.log('Connected to DB');

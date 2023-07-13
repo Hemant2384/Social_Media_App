@@ -17,6 +17,8 @@ const Login = () => {
   // const jwt_token = Cookies.get('jwt-token')
 
   const handleSubmit = (e) => {
+    console.log(username);
+    console.log(password);
     e.preventDefault();
     axios
       .post("http://localhost:8000/login", {

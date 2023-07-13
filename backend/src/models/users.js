@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        trim: true,
         unique: true
     },
     email: {
@@ -42,22 +41,19 @@ const userSchema = new mongoose.Schema({
     sentRequests: [{   // request sent to  following username
         username: {
             type: String,
-            required: true,
-            unique:true
+            required: true
         }
     }],
     recievedRequests: [{  //request recieved from following username
         username: {
             type: String,
-            required: true,
-            unique:true
+            required: true
         }
     }],
-    friends: [{   
+    friends: [{  
         username: {
             type: String,
-            required: true,
-            unique:true
+            required: true
         }
     }],
     tokens: [{
@@ -115,6 +111,24 @@ userSchema.pre('deleteOne', {document: true}, async function(next) {
     try {
         await Posts.deleteMany({username: user.username})
         await Comments.deleteMany({username: user.username})
+        user.sendRequests.forEach(async (username) => {
+            const secondUser = await Users.findOne({username})
+            secondUser.recievedRequests = secondUser.recievedRequests.filter((firstUser) => {
+                return firstUser.username !== user.username
+            })
+        })
+        user.recievedRequests.forEach(async (user) => {
+            const secondUser = await Users.findOne({username})
+            secondUser.sentRequests = secondUser.sentRequests.filter((firstUser) => {
+                return firstUser.username !== user.username
+            })
+        })
+        user.friends.forEach(async (user) => {
+            const secondUser = await Users.findOne({username})
+            secondUser.friends = secondUser.friends.filter((firstUser) => {
+                return firstUser.username !== user.username
+            })
+        })
         next()
     } catch(e) {
         res.status(500).send()
