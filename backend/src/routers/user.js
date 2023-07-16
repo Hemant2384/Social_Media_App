@@ -59,7 +59,7 @@ router.get('/user/:username', auth, async (req, res) => {
         } else {
             const user = await Users.findOne({username:req.params.username})
             if(!user) {
-                res.send('User not found')
+                return res.send('User not found')
             }
             res.send({
                 username: user.username,
@@ -77,7 +77,7 @@ router.get('/user/admin/:username', auth, isAdmin, async(req, res) => {
     try {
         const user = await Users.findOne({username:req.params.username})
         if(!user) {
-            res.send('User not found')
+            return res.send('User not found')
         }
         res.send(user)
     } catch (e) {
