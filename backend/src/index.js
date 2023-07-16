@@ -11,6 +11,8 @@ const likeRouter = require('./routers/like')
 const commentRouter = require('./routers/comment')
 const resetPasswordRoute = require('./routers/password')
 const friendRoute = require('./routers/friend')
+const deleteExpiredToken = require('./utils/expiredTokens')
+const cron = require('node-cron')
 const port = 8000
 
 conDB()
@@ -26,6 +28,7 @@ app.use(likeRouter)
 app.use(commentRouter)
 app.use(resetPasswordRoute)
 app.use(friendRoute)
+cron.schedule('*/30 * * * *',deleteExpiredToken)   //run every 30 minutes
 
 mongoose.connection.once('open', () => {
     console.log('Connected to DB');

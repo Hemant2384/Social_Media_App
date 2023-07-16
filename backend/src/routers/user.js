@@ -11,7 +11,7 @@ router.post('/login', async (req,res) => {
     try {
         const user = await Users.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        res.cookie('authcookie', token, {httpOnly:true, maxAge: 60*60*1000}).send({user})
+        res.cookie('authcookie', token, {httpOnly:true, maxAge: 60*60*1000}).send({user})  // 1 hour
     } catch (e) {
         res.status(400).send(e)
     } 
@@ -58,6 +58,9 @@ router.get('/user/:username', auth, async (req, res) => {
             return res.send(req.user)
         } else {
             const user = await Users.findOne({username:req.params.username})
+            if(!user) {
+                res.send('User not found')
+            }
             res.send({
                 username: user.username,
                 email: user.email,
@@ -73,6 +76,9 @@ router.get('/user/:username', auth, async (req, res) => {
 router.get('/user/admin/:username', auth, isAdmin, async(req, res) => {
     try {
         const user = await Users.findOne({username:req.params.username})
+        if(!user) {
+            res.send('User not found')
+        }
         res.send(user)
     } catch (e) {
         res.status(500).send(e)
