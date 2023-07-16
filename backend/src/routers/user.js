@@ -1,7 +1,8 @@
 const express = require('express')
 const router = new express.Router()
 const Users = require('../models/users')
-const auth = require('../middleware/authenticate')
+const auth= require('../middleware/authenticate')
+const isAdmin = require('../middleware/isAdmin')
 const multer = require('multer')
 const sharp = require('sharp')
 
@@ -10,7 +11,7 @@ router.post('/login', async (req,res) => {
     try {
         const user = await Users.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        res.send({user,token})
+        res.cookie('authcookie', token, {httpOnly:true, maxAge: 60*60*1000}).send({user})
     } catch (e) {
         res.status(400).send(e)
     } 
@@ -20,8 +21,7 @@ router.post('/register', async (req, res) => {
     const user = new Users(req.body)
     try {
         await user.save()
-        const token = await user.generateAuthToken()
-        res.status(201).send({user, token})
+        res.status(201).send('Registered Successfully')
     } catch(e) {
         res.status(400).send(e)
     }  
@@ -50,6 +50,33 @@ router.post('/user/logoutAll', auth, async (req, res) => {
 })
 router.get('/user/me', auth, async (req, res) => {
     res.send(req.user)
+})
+
+router.get('/user/:username', auth, async (req, res) => {
+    try {
+        if(req.user.username === req.params.username) {
+            return res.send(req.user)
+        } else {
+            const user = await Users.findOne({username:req.params.username})
+            res.send({
+                username: user.username,
+                email: user.email,
+                profilePic: user.profilePic
+            })
+        }
+        
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+router.get('/user/admin/:username', auth, isAdmin, async(req, res) => {
+    try {
+        const user = await Users.findOne({username:req.params.username})
+        res.send(user)
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 router.patch('/user/me', auth, async (req, res) => {

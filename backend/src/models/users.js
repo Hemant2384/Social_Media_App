@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
         minlength: 8,
         trim:true,
     },
+    role: {
+        type: String,
+        default: 'user'
+    },
     dob: {
         type: Date,
         required: true
@@ -84,7 +88,10 @@ userSchema.methods.toJSON = function() {
     const userObject = user.toObject()
     delete userObject.password
     delete userObject.tokens
-    delete userObject.email
+    delete userObject.role
+    delete userObject.sentRequests
+    delete userObject.resetPasswordExpire
+    delete userObject.resetPasswordToken
     return userObject
 }
 

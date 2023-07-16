@@ -10,7 +10,6 @@ router.post('/like/:id', auth, async (req, res) => {
             return res.status(404).send('Post not found')
         }
         const isLiked = post.likes.get(req.user.username)
-        console.log(isLiked)
         var liked = false
         if(isLiked) {
             post.likes.delete(req.user.username)

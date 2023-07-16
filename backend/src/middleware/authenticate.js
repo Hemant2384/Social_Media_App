@@ -5,7 +5,7 @@ require('dotenv').config()
 //method for authentication of the user
 const auth = async (req, res, next)=> {
     try {
-        const token = req.header('Authorization').replace('Bearer ', '') 
+        const token = req.cookies.authcookie
         const decoded = jwt.verify(token, process.env.SECRET_KEY)
         const user = await User.findOne({_id: decoded._id, 'tokens.token': token})                                                                    
         if(!user) {
